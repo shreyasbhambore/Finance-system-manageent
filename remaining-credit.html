@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Remaining Credit</title>
+</head>
+<body>
+  <h1>Remaining Credit</h1>
+  <p>Your remaining credit is: ₹<span id="remaining-credit"></span></p>
+
+  <script>
+    let remainingCredit = localStorage.getItem('remainingCredit') || 40000; // Get remaining credit from local storage or set default value
+    document.querySelector('#remaining-credit').textContent = remainingCredit; // Display remaining credit on the page
+  </script>
+</body>
+</html>
