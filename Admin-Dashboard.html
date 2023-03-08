@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Page</title>
+	<style>
+		body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://www.moneytap.com/blog/wp-content/uploads/2020/08/No-Cost-EMI.png");
+        
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+h1 {
+  text-align: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+table td:last-child {
+  text-align: center;
+}
+
+button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #f44336;
+}
+
+.editable {
+  background-color: #f2f2f2;
+}
+
+.hidden {
+  display: none;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.input-group label {
+  flex-grow: 1;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.input-group input {
+  flex-grow: 2;
+  margin-right: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.input-group button[type="submit"] {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.input-group button[type="button"] {
+  background-color: #ddd;
+  color: #000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+	</style>
+</head>
+<body>
+	<h1>Admin Page</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>NAME</th>
+				<th>UNAME</th>
+				<th>ACTIVATION</th>
+				<th>EDIT</th>
+				<th>DELETE</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr id="user1">
+				<td>Akash Kumar</td>
+				<td>Akash_kumar</td>
+				<td>
+					<button id="activate1">Activate</button>
+				</td>
+				<td>
+					<button id="edit1">Edit</button>
+				</td>
+				<td>
+					<button id="delete1">Delete</button>
+				</td>
+			</tr>
+			<tr id="user2">
+				<td>Anant Kumar</td>
+				<td>Anant_Kumar</td>
+				<td>
+					<button id="activate2">Activate</button>
+				</td>
+				<td>
+					<button id="edit2">Edit</button>
+				</td>
+				<td>
+					<button id="delete2">Delete</button>
+				</td>
+			</tr>
+			<tr id="user3">
+				<td>Sanjay Bhat</td>
+				<td>Sanjay_Bhat</td>
+				<td>
+					<button id="activate3">Activate</button>
+				</td>
+				<td>
+					<button id="edit3">Edit</button>
+				</td>
+				<td>
+<button id="delete3">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div id="edit-user" class="hidden">
+	<h2>Edit User</h2>
+	<form>
+		<div class="input-group">
+			<label for="name">Name:</label>
+			<input type="text" id="name">
+		</div>
+		<div class="input-group">
+			<label for="uname">Username:</label>
+			<input type="text" id="uname">
+		</div>
+		<div class="input-group">
+			<button type="submit">Save</button>
+			<button type="button" id="cancel-edit">Cancel</button>
+		</div>
+	</form>
+</div>
+
+<script>
+	// Activate button functionality
+	const activateButtons = document.querySelectorAll('[id^="activate"]');
+	activateButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			button.classList.toggle('active');
+			button.textContent = button.classList.contains('active') ? 'Deactivate' : 'Activate';
+		});
+	});
+
+	// Edit button functionality
+	const editButtons = document.querySelectorAll('[id^="edit"]');
+	editButtons.forEach(button => {
+		button.addEventListener('click', () => {
+			const row = button.parentNode.parentNode;
+			const name = row.cells[0].textContent;
+			const uname = row.cells[1].textContent;
+			document.querySelector('#name').value = name;
+			document.querySelector('#uname').value = uname;
+			row.classList.add('editable');
+			document.querySelector('#edit-user').classList.remove('hidden');
+		});
+
+				});
+
+// Cancel edit button functionality
+const cancelEditButton = document.querySelector('#cancel-edit');
+cancelEditButton.addEventListener('click', () => {
+	const editableRow = document.querySelector('.editable');
+	if (editableRow) {
+		editableRow.classList.remove('editable');
+	}
+	document.querySelector('#edit-user').classList.add('hidden');
+});
+
+// Save button functionality
+const saveButton = document.querySelector('#edit-user button[type="submit"]');
+saveButton.addEventListener('click', event => {
+	event.preventDefault();
+	const editableRow = document.querySelector('.editable');
+	if (editableRow) {
+		const nameInput = document.querySelector('#name');
+		const unameInput = document.querySelector('#uname');
+		editableRow.cells[0].textContent = nameInput.value;
+		editableRow.cells[1].textContent = unameInput.value;
+		editableRow.classList.remove('editable');
+		document.querySelector('#edit-user').classList.add('hidden');
+	}
+});
+
+// Delete button functionality
+const deleteButtons = document.querySelectorAll('[id^="delete"]');
+deleteButtons.forEach(button => {
+	button.addEventListener('click', () => {
+		const row = button.parentNode.parentNode;
+		row.parentNode.removeChild(row);
+	});
+});
+</script>
+</body>
+</html>
